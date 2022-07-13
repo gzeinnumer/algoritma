@@ -16,6 +16,10 @@ for ($i = 0; $i < count($datax); $i++) {
     $dataxy[] = $datax[$i] * $datay[$i];
 }
 
+$a = array_sum($datay) / count($dataLable);
+echo "<br>a : $a<br>";
+$b = array_sum($dataxy) / array_sum($datax2);
+echo "b : $b<br>";
 //CARI DATA Y
 $dataY = [];
 for ($i = 0; $i < count($datax); $i++) {
@@ -25,7 +29,7 @@ for ($i = 0; $i < count($datax); $i++) {
 //CARI DATA MAPE
 $dataMAPE = [];
 for ($i = 0; $i < count($dataY); $i++) {
-    $dataMAPE[] = round((($dataY[$i] - $datay[$i]) / $datay[$i]) * 100, 3);
+    $dataMAPE[] = round((($dataY[$i] - $datay[$i]) / $dataY[$i]) * 100, 3);
     if ($dataMAPE[$i] < 0) {
         $dataMAPE[$i] = $dataMAPE[$i] * -1;
     }
@@ -60,10 +64,7 @@ for ($i = 0; $i < count($dataxy); $i++) {
 }
 echo "SUM " . array_sum($dataxy) . "<br>";
 
-$a = array_sum($datay) / count($dataLable);
-echo "<br>a : $a<br>";
-$b = array_sum($dataxy) / array_sum($datax2);
-echo "b : $b<br>";
+
 
 echo "<br>Data-Y<br>";
 for ($i = 0; $i < count($dataY); $i++) {
@@ -92,3 +93,37 @@ for ($i = 0; $i < count($nextBulan); $i++) {
     echo $nextBulan[$i] . "_" . $dataY_[$i] . "<br>";
 }
 echo "SUM " . array_sum($dataY_) . "<br>";
+
+?>
+<html>
+
+<body>
+    <table border="1">
+        <tr>
+            <td>y</td>
+            <td>x</td>
+            <td>xx</td>
+            <td>xy</td>
+            <td>Y</td>
+            <td>MAPE</td>
+        </tr>
+
+        <?php
+        for ($i = 0; $i < count($datay); $i++) {
+        ?>
+            <tr>
+                <td><?php echo $datay[$i] ?></td>
+                <td><?php echo $datax[$i] ?></td>
+                <td><?php echo $datax2[$i] ?></td>
+                <td><?php echo $dataxy[$i] ?></td>
+                <td><?php echo $dataY[$i] ?></td>
+                <td><?php echo $dataMAPE[$i] ?></td>
+            </tr>
+        <?php
+        }
+        ?>
+
+    </table>
+</body>
+
+</html>
