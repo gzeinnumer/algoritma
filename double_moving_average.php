@@ -95,21 +95,25 @@ for ($i = 0; $i < count($dataft); $i++) {
 }
 
 echo "<br>";
-$datamape = [];
+$dataMAPE = [];
 for ($i = 0; $i < count($datas2); $i++) {
     if ($i < $rentang * 2 - 2 + 1) {
-        $datamape[] = 0;
+        $dataMAPE[] = 0;
     } else {
-        $datamape[] = round((($dataxt[$i] - $dataft[$i]) / $dataxt[$i]) * 100, 2);
-        if ($datamape[$i] < 0) {
-            $datamape[$i] = $datamape[$i] * -1;
+        if ($dataxt[$i] > 0) {
+            $dataMAPE[] = round((($dataxt[$i] - $dataft[$i]) / $dataxt[$i]) * 100, 2);
+            if ($dataMAPE[$i] < 0) {
+                $dataMAPE[$i] = $dataMAPE[$i] * -1;
+            }
+        } else {
+            $dataMAPE[] = 0;
         }
     }
 }
 
 echo "<br>";
-for ($i = 0; $i < count($datamape); $i++) {
-    echo $i . "-" . $datamape[$i] . "<br>";
+for ($i = 0; $i < count($dataMAPE); $i++) {
+    echo $i . "-" . $dataMAPE[$i] . "<br>";
 }
 
 echo "<br>";
@@ -141,7 +145,7 @@ for ($i = 0; $i < count($datas2); $i++) {
     if ($i < $rentang * 2 - 2 + 1) {
     } else {
         $count++;
-        $ratamape = $ratamape + $datamape[$i];
+        $ratamape = $ratamape + $dataMAPE[$i];
     }
 }
 
@@ -179,7 +183,7 @@ echo $ratamape;
                 <td><?php echo $dataat[$i] ?></td>
                 <td><?php echo $databt[$i] ?></td>
                 <td><?php echo $dataft[$i] ?></td>
-                <td><?php echo $datamape[$i] ?></td>
+                <td><?php echo $dataMAPE[$i] ?></td>
             </tr>
         <?php
         }
