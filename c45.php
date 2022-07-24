@@ -32,7 +32,10 @@ $mp6 = [
     'Tidak Berpenghasilan'
 ]; //4
 
-$mp7 = ['Disiplin', 'Tidak Disipilin'];
+$mp7 = [
+    'Disiplin', //0
+    'Tidak Disipilin' //1
+];
 
 $data = [];
 
@@ -217,10 +220,23 @@ $e->l1_td2 = "";
 $e->l1_td3 = count($data);
 $e->l1_td4 = array_count_values(array_column($data, 'p7'))[$mp7[0]];
 $e->l1_td5 = array_count_values(array_column($data, 'p7'))[$mp7[1]];
-$e->l1_td6 = "";
+
+$nilai1 = $e->l1_td4;
+$nilai2 = $e->l1_td5;
+$total = $e->l1_td3;
+$atribut1 = (- ($nilai1 / $total) * (log(($nilai1 / $total), 2)));
+$atribut2 = (- ($nilai2 / $total) * (log(($nilai2 / $total), 2)));
+$atribut1 = is_nan($atribut1) ? 0 : $atribut1;
+$atribut2 = is_nan($atribut2) ? 0 : $atribut2;
+$entropy = $atribut1 + $atribut2;
+$e->l1_td6 = $entropy;
+
 $e->l1_td7 = "";
+$e->l1_td8 = "";
+
 $res_level1[] = $e;
 
+//MP1
 $e = new stdClass();
 $e->l1_td1 = "Alat Transportasi";
 $e->l1_td2 = "";
@@ -229,6 +245,8 @@ $e->l1_td4 = "";
 $e->l1_td5 = "";
 $e->l1_td6 = "";
 $e->l1_td7 = "";
+$e->l1_td8 = "";
+$td8 = 0;
 $res_level1[] = $e;
 
 for ($i = 0; $i < count($mp1); $i++) {
@@ -238,27 +256,43 @@ for ($i = 0; $i < count($mp1); $i++) {
     $e->l1_td1 = "";
     $e->l1_td2 = $c;
     $e->l1_td3 = array_count_values(array_column($data, 'p1'))[$mp1[$i]];
+
     $temp = [];
     for ($j = 0; $j < count($data); $j++) {
-        if ($data[$j]->p1 === $mp1[$i]) {
+        if ($data[$j]->p1 == $mp1[$i]) {
             $temp[] = $data[$j];
         }
     }
-    $e->l1_td4 = array_count_values(array_column($temp, 'p7'))[$mp7[0]] != null ? array_count_values(array_column($temp, 'p7'))[$mp7[0]] : "0";
-    $e->l1_td5 = array_count_values(array_column($temp, 'p7'))[$mp7[1]] != null ? array_count_values(array_column($temp, 'p7'))[$mp7[1]] : "0";;
-    $e->l1_td6 = "";
+    $e->l1_td4 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[0]]) ?  array_count_values(array_column($temp, 'p7'))[$mp7[0]] : "0";
+    $e->l1_td5 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[1]]) ? array_count_values(array_column($temp, 'p7'))[$mp7[1]] : "0";
+
+    $nilai1 = $e->l1_td4;
+    $nilai2 = $e->l1_td5;
+    $total = $e->l1_td3;
+    $atribut1 = (- ($nilai1 / $total) * (log(($nilai1 / $total), 2)));
+    $atribut2 = (- ($nilai2 / $total) * (log(($nilai2 / $total), 2)));
+    $atribut1 = is_nan($atribut1) ? 0 : $atribut1;
+    $atribut2 = is_nan($atribut2) ? 0 : $atribut2;
+    $entropy = $atribut1 + $atribut2;
+    $e->l1_td6 = $entropy;
+
     $e->l1_td7 = "";
+
+    $e->l1_td8 = - (($e->l1_td3 / $res_level1[0]->l1_td3) * $e->l1_td6);
+    $td8 = $td8 + $e->l1_td8;
     $res_level1[] = $e;
 }
 
-// $e = new stdClass();
-// $e->l1_td1 = "";
-// $e->l1_td2 = "";
-// $e->l1_td3 = "";
-// $e->l1_td4 = "";
-// $e->l1_td5 = "";
-// $e->l1_td6 = "";
-// $e->l1_td7 = "";
+$e = new stdClass();
+$e->l1_td1 = "";
+$e->l1_td2 = "";
+$e->l1_td3 = "";
+$e->l1_td4 = "";
+$e->l1_td5 = "";
+$e->l1_td6 = "";
+$e->l1_td7 = $td8 + $res_level1[0]->l1_td6;
+$e->l1_td8 = "";
+$res_level1[] = $e;
 ?>
 
 <html>
@@ -273,7 +307,7 @@ for ($i = 0; $i < count($mp1); $i++) {
             <th>Title</th>
             <th>Kategori</th>
             <th>Jumlah(S)</th>
-            <th>Disiplib(Si)</th>
+            <th>Disiplin(Si)</th>
             <th>Tidak Disiplib(Si)</th>
             <th>Entrophy</th>
             <th>Gain</th>
@@ -289,6 +323,7 @@ for ($i = 0; $i < count($mp1); $i++) {
                     <td><?= $c->l1_td5 ?></td>
                     <td><?= $c->l1_td6 ?></td>
                     <td><?= $c->l1_td7 ?></td>
+                    <td><?= $c->l1_td8 ?></td>
                 </tr>
             <?php } ?>
         </tbody>
