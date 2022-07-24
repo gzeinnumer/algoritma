@@ -3,6 +3,7 @@
 $dataLable = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul"];
 $datay = [258, 258, 290, 346, 312, 300, 298];
 $datax = [-3, -2, -1, 0, 1, 2, 3];
+$nextCount = 5;
 
 //CARI DATA x2
 $datax2 = [];
@@ -29,7 +30,7 @@ for ($i = 0; $i < count($datax); $i++) {
 //CARI DATA MAPE
 $dataMAPE = [];
 for ($i = 0; $i < count($dataY); $i++) {
-    $dataMAPE[] = round((($dataY[$i] - $datay[$i]) / $dataY[$i]) * 100, 3);
+    $dataMAPE[] = round((($datay[$i] - $dataY[$i]) / $datay[$i]) * 100, 3);
     if ($dataMAPE[$i] < 0) {
         $dataMAPE[$i] = $dataMAPE[$i] * -1;
     }
@@ -81,7 +82,12 @@ echo "SUM/n " . round(array_sum($dataMAPE) / count($dataLable), 3) . "<br>";
 
 
 $lastData = $datax[count($datax) - 1];
-$nextBulan = [$lastData + 1, $lastData + 2, $lastData + 3];
+$nextLable = [];
+$nextBulan = [];
+for ($i = 0; $i < $nextCount; $i++) {
+    $nextLable[] = "Data $i";
+    $nextBulan[] = $lastData + $i + 1;
+}
 
 $dataY_ = [];
 for ($i = 0; $i < count($nextBulan); $i++) {
