@@ -30,9 +30,13 @@ for ($i = 0; $i < count($datax); $i++) {
 //CARI DATA MAPE
 $dataMAPE = [];
 for ($i = 0; $i < count($dataY); $i++) {
-    $dataMAPE[] = round((($datay[$i] - $dataY[$i]) / $datay[$i]) * 100, 3);
-    if ($dataMAPE[$i] < 0) {
-        $dataMAPE[$i] = $dataMAPE[$i] * -1;
+    if ($datay[$i] > 0) {
+        $dataMAPE[] = round((($datay[$i] - $dataY[$i]) / $datay[$i]) * 100, 3);
+        if ($dataMAPE[$i] < 0) {
+            $dataMAPE[$i] = $dataMAPE[$i] * -1;
+        }
+    } else {
+        $dataMAPE[] = 0;
     }
 }
 
