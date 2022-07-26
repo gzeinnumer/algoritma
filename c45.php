@@ -248,6 +248,7 @@ $e->l1_td7 = "";
 $e->l1_td8 = "";
 $td8 = 0;
 $res_level1[] = $e;
+$gainPerSub = [];
 
 for ($i = 0; $i < count($mp1); $i++) {
     $c = $mp1[$i];
@@ -277,11 +278,25 @@ for ($i = 0; $i < count($mp1); $i++) {
     $e->l1_td6 = $entropy;
 
     $e->l1_td7 = "";
-
-    $e->l1_td8 = - (($e->l1_td3 / $res_level1[0]->l1_td3) * $e->l1_td6);
+    $temp = (($e->l1_td3 / $res_level1[0]->l1_td3) * $e->l1_td6);
+    if ($temp == "-0") {
+        $e->l1_td8 = "0";
+    } else {
+        $e->l1_td8 = $temp;
+    }
+    $gainPerSub[] = $e->l1_td8;
     $td8 = $td8 + $e->l1_td8;
     $res_level1[] = $e;
 }
+
+$resGainPerSub = 0;
+
+for ($i = 0; $i < count($gainPerSub); $i++) {
+    $toCount = $gainPerSub[$i];
+    $resGainPerSub = $resGainPerSub - ($toCount);
+}
+
+
 
 $e = new stdClass();
 $e->l1_td1 = "";
@@ -290,7 +305,8 @@ $e->l1_td3 = "";
 $e->l1_td4 = "";
 $e->l1_td5 = "";
 $e->l1_td6 = "";
-$e->l1_td7 = $res_level1[0]->l1_td6 + ($res_level1[2]->l1_td8 - $res_level1[3]->l1_td8 - $res_level1[4]->l1_td8);
+// $e->l1_td7 = $res_level1[0]->l1_td6 + ($res_level1[2]->l1_td8 - $res_level1[3]->l1_td8 - $res_level1[4]->l1_td8);
+$e->l1_td7 = $res_level1[0]->l1_td6 + ($resGainPerSub);
 $e->l1_td8 = "";
 $res_level1[] = $e;
 ?>
@@ -302,9 +318,9 @@ $res_level1[] = $e;
 </head>
 
 <body>
-<table border="1">
-    <thead>
-        <th></th>
+    <table border="1">
+        <thead>
+            <th></th>
             <th>l1_td1</th>
             <th>l1_td2</th>
             <th>l1_td3</th>
@@ -329,7 +345,7 @@ $res_level1[] = $e;
             <?php for ($i = 0; $i < count($res_level1); $i++) {
                 $c = $res_level1[$i]; ?>
                 <tr>
-                    <td><?= $i?></td>
+                    <td><?= $i ?></td>
                     <td><?= $c->l1_td1 ?></td>
                     <td><?= $c->l1_td2 ?></td>
                     <td><?= $c->l1_td3 ?></td>
