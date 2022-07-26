@@ -290,7 +290,65 @@ $e->l1_td3 = "";
 $e->l1_td4 = "";
 $e->l1_td5 = "";
 $e->l1_td6 = "";
-$e->l1_td7 = $td8 + $res_level1[0]->l1_td6;
+$e->l1_td7 = $res_level1[0]->l1_td6 + ($res_level1[2]->l1_td8 - $res_level1[3]->l1_td8 - $res_level1[4]->l1_td8);
+$e->l1_td8 = "";
+$res_level1[] = $e;
+
+//MP2
+$e = new stdClass();
+$e->l1_td1 = "Pendidikan Ayah";
+$e->l1_td2 = "";
+$e->l1_td3 = "";
+$e->l1_td4 = "";
+$e->l1_td5 = "";
+$e->l1_td6 = "";
+$e->l1_td7 = "";
+$e->l1_td8 = "";
+$td8 = 0;
+$res_level1[] = $e;
+
+for ($i = 0; $i < count($mp2); $i++) {
+    $c = $mp2[$i];
+
+    $e = new stdClass();
+    $e->l1_td1 = "";
+    $e->l1_td2 = $c;
+    $e->l1_td3 = array_count_values(array_column($data, 'p1'))[$mp2[$i]];
+
+    $temp = [];
+    for ($j = 0; $j < count($data); $j++) {
+        if ($data[$j]->p1 == $mp2[$i]) {
+            $temp[] = $data[$j];
+        }
+    }
+    $e->l1_td4 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[0]]) ?  array_count_values(array_column($temp, 'p7'))[$mp7[0]] : "0";
+    $e->l1_td5 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[1]]) ? array_count_values(array_column($temp, 'p7'))[$mp7[1]] : "0";
+
+    $nilai1 = $e->l1_td4;
+    $nilai2 = $e->l1_td5;
+    $total = $e->l1_td3;
+    $atribut1 = (- ($nilai1 / $total) * (log(($nilai1 / $total), 2)));
+    $atribut2 = (- ($nilai2 / $total) * (log(($nilai2 / $total), 2)));
+    $atribut1 = is_nan($atribut1) ? 0 : $atribut1;
+    $atribut2 = is_nan($atribut2) ? 0 : $atribut2;
+    $entropy = $atribut1 + $atribut2;
+    $e->l1_td6 = $entropy;
+
+    $e->l1_td7 = "";
+
+    $e->l1_td8 = - (($e->l1_td3 / $res_level1[0]->l1_td3) * $e->l1_td6);
+    $td8 = $td8 + $e->l1_td8;
+    $res_level1[] = $e;
+}
+
+$e = new stdClass();
+$e->l1_td1 = "";
+$e->l1_td2 = "";
+$e->l1_td3 = "";
+$e->l1_td4 = "";
+$e->l1_td5 = "";
+$e->l1_td6 = "";
+$e->l1_td7 = $res_level1[0]->l1_td6 + ($res_level1[2]->l1_td8 - $res_level1[3]->l1_td8 - $res_level1[4]->l1_td8);
 $e->l1_td8 = "";
 $res_level1[] = $e;
 ?>
@@ -302,8 +360,20 @@ $res_level1[] = $e;
 </head>
 
 <body>
-    <table border="1">
+<table border="1">
+    <thead>
+        <th></th>
+            <th>l1_td1</th>
+            <th>l1_td2</th>
+            <th>l1_td3</th>
+            <th>l1_td4</th>
+            <th>l1_td5</th>
+            <th>l1_td6</th>
+            <th>l1_td7</th>
+            <th>l1_td8</th>
+        </thead>
         <thead>
+            <th></th>
             <th>Title</th>
             <th>Kategori</th>
             <th>Jumlah(S)</th>
@@ -311,11 +381,13 @@ $res_level1[] = $e;
             <th>Tidak Disiplib(Si)</th>
             <th>Entrophy</th>
             <th>Gain</th>
+            <th> </th>
         </thead>
         <tbody>
             <?php for ($i = 0; $i < count($res_level1); $i++) {
                 $c = $res_level1[$i]; ?>
                 <tr>
+                    <td><?= $i?></td>
                     <td><?= $c->l1_td1 ?></td>
                     <td><?= $c->l1_td2 ?></td>
                     <td><?= $c->l1_td3 ?></td>
