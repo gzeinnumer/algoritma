@@ -293,9 +293,13 @@ $resGainPerSub = 0;
 
 for ($i = 0; $i < count($gainPerSub); $i++) {
     $toCount = $gainPerSub[$i];
-    $resGainPerSub = $resGainPerSub - ($toCount);
+    $resGainPerSub = $resGainPerSub - $toCount;
+    echo "<br>$resGainPerSub - $toCount";
 }
 
+
+// echo 0.30001034845309 - 0.27766465187975;
+// echo $resGainPerSub;
 
 
 $e = new stdClass();
@@ -309,6 +313,7 @@ $e->l1_td6 = "";
 $e->l1_td7 = $res_level1[0]->l1_td6 + ($resGainPerSub);
 $e->l1_td8 = "";
 $res_level1[] = $e;
+
 ?>
 
 <html>
