@@ -656,7 +656,7 @@ $res_level1[] = $e;
 $gainPerSub = [];
 
 for ($i = 0; $i < count($mp6); $i++) {
-    $c = $mp5[$i];
+    $c = $mp6[$i];
 
     $e = new stdClass();
     $e->l1_td1 = "";
