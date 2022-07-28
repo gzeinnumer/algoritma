@@ -292,9 +292,13 @@ for ($i = 0; $i < count($mp1); $i++) {
 $resGainPerSub = 0;
 
 for ($i = 0; $i < count($gainPerSub); $i++) {
-    $toCount = $gainPerSub[$i];
-    $resGainPerSub = $resGainPerSub - $toCount;
-    echo "<br>$resGainPerSub - $toCount";
+    if($i==0){
+        $resGainPerSub = $gainPerSub[$i];
+    }else{
+
+        $toCount = $gainPerSub[$i];
+        $resGainPerSub = $resGainPerSub - $toCount;
+    }
 }
 
 
@@ -310,7 +314,412 @@ $e->l1_td4 = "";
 $e->l1_td5 = "";
 $e->l1_td6 = "";
 // $e->l1_td7 = $res_level1[0]->l1_td6 + ($res_level1[2]->l1_td8 - $res_level1[3]->l1_td8 - $res_level1[4]->l1_td8);
-$e->l1_td7 = $res_level1[0]->l1_td6 + ($resGainPerSub);
+$e->l1_td7 = $res_level1[0]->l1_td6 - ($resGainPerSub);
+$e->l1_td8 = "";
+$res_level1[] = $e;
+
+//MP2
+$e = new stdClass();
+$e->l1_td1 = "Pendidikan Ayah";
+$e->l1_td2 = "";
+$e->l1_td3 = "";
+$e->l1_td4 = "";
+$e->l1_td5 = "";
+$e->l1_td6 = "";
+$e->l1_td7 = "";
+$e->l1_td8 = "";
+$td8 = 0;
+$res_level1[] = $e;
+$gainPerSub = [];
+
+for ($i = 0; $i < count($mp2); $i++) {
+    $c = $mp2[$i];
+
+    $e = new stdClass();
+    $e->l1_td1 = "";
+    $e->l1_td2 = $c;
+    $e->l1_td3 = array_count_values(array_column($data, 'p2'))[$mp2[$i]];
+
+    $temp = [];
+    for ($j = 0; $j < count($data); $j++) {
+        if ($data[$j]->p2 == $mp2[$i]) {
+            $temp[] = $data[$j];
+        }
+    }
+    $e->l1_td4 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[0]]) ?  array_count_values(array_column($temp, 'p7'))[$mp7[0]] : "0";
+    $e->l1_td5 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[1]]) ? array_count_values(array_column($temp, 'p7'))[$mp7[1]] : "0";
+
+    $nilai1 = $e->l1_td4;
+    $nilai2 = $e->l1_td5;
+    $total = $e->l1_td3;
+    $atribut1 = (- ($nilai1 / $total) * (log(($nilai1 / $total), 2)));
+    $atribut2 = (- ($nilai2 / $total) * (log(($nilai2 / $total), 2)));
+    $atribut1 = is_nan($atribut1) ? 0 : $atribut1;
+    $atribut2 = is_nan($atribut2) ? 0 : $atribut2;
+    $entropy = $atribut1 + $atribut2;
+    $e->l1_td6 = $entropy;
+
+    $e->l1_td7 = "";
+    $temp = (($e->l1_td3 / $res_level1[0]->l1_td3) * $e->l1_td6);
+    if ($temp == "-0") {
+        $e->l1_td8 = "0";
+    } else {
+        $e->l1_td8 = $temp;
+    }
+    $gainPerSub[] = $e->l1_td8;
+    $td8 = $td8 + $e->l1_td8;
+    $res_level1[] = $e;
+}
+
+$resGainPerSub = 0;
+
+for ($i = 0; $i < count($gainPerSub); $i++) {
+    if($i==0){
+        $resGainPerSub = $gainPerSub[$i];
+    }else{
+
+        $toCount = $gainPerSub[$i];
+        $resGainPerSub = $resGainPerSub - $toCount;
+    }
+}
+
+
+// echo 0.30001034845309 - 0.27766465187975;
+// echo $resGainPerSub;
+
+
+$e = new stdClass();
+$e->l1_td1 = "";
+$e->l1_td2 = "";
+$e->l1_td3 = "";
+$e->l1_td4 = "";
+$e->l1_td5 = "";
+$e->l1_td6 = "";
+// $e->l1_td7 = $res_level1[0]->l1_td6 + ($res_level1[2]->l1_td8 - $res_level1[3]->l1_td8 - $res_level1[4]->l1_td8);
+$e->l1_td7 = $res_level1[0]->l1_td6 - ($resGainPerSub);
+$e->l1_td8 = "";
+$res_level1[] = $e;
+
+//MP3
+$e = new stdClass();
+$e->l1_td1 = "Pekerjaan Ayah";
+$e->l1_td2 = "";
+$e->l1_td3 = "";
+$e->l1_td4 = "";
+$e->l1_td5 = "";
+$e->l1_td6 = "";
+$e->l1_td7 = "";
+$e->l1_td8 = "";
+$td8 = 0;
+$res_level1[] = $e;
+$gainPerSub = [];
+
+for ($i = 0; $i < count($mp3); $i++) {
+    $c = $mp3[$i];
+
+    $e = new stdClass();
+    $e->l1_td1 = "";
+    $e->l1_td2 = $c;
+    $e->l1_td3 = array_count_values(array_column($data, 'p3'))[$mp3[$i]];
+
+    $temp = [];
+    for ($j = 0; $j < count($data); $j++) {
+        if ($data[$j]->p3 == $mp3[$i]) {
+            $temp[] = $data[$j];
+        }
+    }
+    $e->l1_td4 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[0]]) ?  array_count_values(array_column($temp, 'p7'))[$mp7[0]] : "0";
+    $e->l1_td5 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[1]]) ? array_count_values(array_column($temp, 'p7'))[$mp7[1]] : "0";
+
+    $nilai1 = $e->l1_td4;
+    $nilai2 = $e->l1_td5;
+    $total = $e->l1_td3;
+    $atribut1 = (- ($nilai1 / $total) * (log(($nilai1 / $total), 2)));
+    $atribut2 = (- ($nilai2 / $total) * (log(($nilai2 / $total), 2)));
+    $atribut1 = is_nan($atribut1) ? 0 : $atribut1;
+    $atribut2 = is_nan($atribut2) ? 0 : $atribut2;
+    $entropy = $atribut1 + $atribut2;
+    $e->l1_td6 = $entropy;
+
+    $e->l1_td7 = "";
+    $temp = (($e->l1_td3 / $res_level1[0]->l1_td3) * $e->l1_td6);
+    if ($temp == "-0") {
+        $e->l1_td8 = "0";
+    } else {
+        $e->l1_td8 = $temp;
+    }
+    $gainPerSub[] = $e->l1_td8;
+    $td8 = $td8 + $e->l1_td8;
+    $res_level1[] = $e;
+}
+
+$resGainPerSub = 0;
+
+for ($i = 0; $i < count($gainPerSub); $i++) {
+    if($i==0){
+        $resGainPerSub = $gainPerSub[$i];
+    }else{
+
+        $toCount = $gainPerSub[$i];
+        $resGainPerSub = $resGainPerSub - $toCount;
+    }
+}
+
+
+// echo 0.30001034845309 - 0.27766465187975;
+// echo $resGainPerSub;
+
+
+$e = new stdClass();
+$e->l1_td1 = "";
+$e->l1_td2 = "";
+$e->l1_td3 = "";
+$e->l1_td4 = "";
+$e->l1_td5 = "";
+$e->l1_td6 = "";
+// $e->l1_td7 = $res_level1[0]->l1_td6 + ($res_level1[2]->l1_td8 - $res_level1[3]->l1_td8 - $res_level1[4]->l1_td8);
+$e->l1_td7 = $res_level1[0]->l1_td6 - ($resGainPerSub);
+$e->l1_td8 = "";
+$res_level1[] = $e;
+
+//MP4
+$e = new stdClass();
+$e->l1_td1 = "Pendidikan Ibu";
+$e->l1_td2 = "";
+$e->l1_td3 = "";
+$e->l1_td4 = "";
+$e->l1_td5 = "";
+$e->l1_td6 = "";
+$e->l1_td7 = "";
+$e->l1_td8 = "";
+$td8 = 0;
+$res_level1[] = $e;
+$gainPerSub = [];
+
+for ($i = 0; $i < count($mp4); $i++) {
+    $c = $mp4[$i];
+
+    $e = new stdClass();
+    $e->l1_td1 = "";
+    $e->l1_td2 = $c;
+    $e->l1_td3 = array_count_values(array_column($data, 'p4'))[$mp4[$i]];
+
+    $temp = [];
+    for ($j = 0; $j < count($data); $j++) {
+        if ($data[$j]->p4 == $mp4[$i]) {
+            $temp[] = $data[$j];
+        }
+    }
+    $e->l1_td4 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[0]]) ?  array_count_values(array_column($temp, 'p7'))[$mp7[0]] : "0";
+    $e->l1_td5 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[1]]) ? array_count_values(array_column($temp, 'p7'))[$mp7[1]] : "0";
+
+    $nilai1 = $e->l1_td4;
+    $nilai2 = $e->l1_td5;
+    $total = $e->l1_td3;
+    $atribut1 = (- ($nilai1 / $total) * (log(($nilai1 / $total), 2)));
+    $atribut2 = (- ($nilai2 / $total) * (log(($nilai2 / $total), 2)));
+    $atribut1 = is_nan($atribut1) ? 0 : $atribut1;
+    $atribut2 = is_nan($atribut2) ? 0 : $atribut2;
+    $entropy = $atribut1 + $atribut2;
+    $e->l1_td6 = $entropy;
+
+    $e->l1_td7 = "";
+    $temp = (($e->l1_td3 / $res_level1[0]->l1_td3) * $e->l1_td6);
+    if ($temp == "-0") {
+        $e->l1_td8 = "0";
+    } else {
+        $e->l1_td8 = $temp;
+    }
+    $gainPerSub[] = $e->l1_td8;
+    $td8 = $td8 + $e->l1_td8;
+    $res_level1[] = $e;
+}
+
+$resGainPerSub = 0;
+
+for ($i = 0; $i < count($gainPerSub); $i++) {
+    if($i==0){
+        $resGainPerSub = $gainPerSub[$i];
+    }else{
+
+        $toCount = $gainPerSub[$i];
+        $resGainPerSub = $resGainPerSub - $toCount;
+    }
+}
+
+$e = new stdClass();
+$e->l1_td1 = "";
+$e->l1_td2 = "";
+$e->l1_td3 = "";
+$e->l1_td4 = "";
+$e->l1_td5 = "";
+$e->l1_td6 = "";
+// $e->l1_td7 = $res_level1[0]->l1_td6 + ($res_level1[2]->l1_td8 - $res_level1[3]->l1_td8 - $res_level1[4]->l1_td8);
+$e->l1_td7 = $res_level1[0]->l1_td6 - ($resGainPerSub);
+$e->l1_td8 = "";
+$res_level1[] = $e;
+
+//MP5
+$e = new stdClass();
+$e->l1_td1 = "Pekerjaan Ibu";
+$e->l1_td2 = "";
+$e->l1_td3 = "";
+$e->l1_td4 = "";
+$e->l1_td5 = "";
+$e->l1_td6 = "";
+$e->l1_td7 = "";
+$e->l1_td8 = "";
+$td8 = 0;
+$res_level1[] = $e;
+$gainPerSub = [];
+
+for ($i = 0; $i < count($mp5); $i++) {
+    $c = $mp5[$i];
+
+    $e = new stdClass();
+    $e->l1_td1 = "";
+    $e->l1_td2 = $c;
+    $e->l1_td3 = array_count_values(array_column($data, 'p5'))[$mp5[$i]];
+
+    $temp = [];
+    for ($j = 0; $j < count($data); $j++) {
+        if ($data[$j]->p5 == $mp5[$i]) {
+            $temp[] = $data[$j];
+        }
+    }
+    $e->l1_td4 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[0]]) ?  array_count_values(array_column($temp, 'p7'))[$mp7[0]] : "0";
+    $e->l1_td5 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[1]]) ? array_count_values(array_column($temp, 'p7'))[$mp7[1]] : "0";
+
+    $nilai1 = $e->l1_td4;
+    $nilai2 = $e->l1_td5;
+    $total = $e->l1_td3;
+    $atribut1 = (- ($nilai1 / $total) * (log(($nilai1 / $total), 2)));
+    $atribut2 = (- ($nilai2 / $total) * (log(($nilai2 / $total), 2)));
+    $atribut1 = is_nan($atribut1) ? 0 : $atribut1;
+    $atribut2 = is_nan($atribut2) ? 0 : $atribut2;
+    $entropy = $atribut1 + $atribut2;
+    $e->l1_td6 = $entropy;
+
+    $e->l1_td7 = "";
+    $temp = (($e->l1_td3 / $res_level1[0]->l1_td3) * $e->l1_td6);
+    if ($temp == "-0") {
+        $e->l1_td8 = "0";
+    } else {
+        $e->l1_td8 = $temp;
+    }
+    $gainPerSub[] = $e->l1_td8;
+    $td8 = $td8 + $e->l1_td8;
+    $res_level1[] = $e;
+}
+
+$resGainPerSub = 0;
+
+for ($i = 0; $i < count($gainPerSub); $i++) {
+    if($i==0){
+        $resGainPerSub = $gainPerSub[$i];
+    }else{
+
+        $toCount = $gainPerSub[$i];
+        $resGainPerSub = $resGainPerSub - $toCount;
+    }
+}
+
+
+// echo 0.30001034845309 - 0.27766465187975;
+// echo $resGainPerSub;
+
+
+$e = new stdClass();
+$e->l1_td1 = "";
+$e->l1_td2 = "";
+$e->l1_td3 = "";
+$e->l1_td4 = "";
+$e->l1_td5 = "";
+$e->l1_td6 = "";
+// $e->l1_td7 = $res_level1[0]->l1_td6 + ($res_level1[2]->l1_td8 - $res_level1[3]->l1_td8 - $res_level1[4]->l1_td8);
+$e->l1_td7 = $res_level1[0]->l1_td6 - ($resGainPerSub);
+$e->l1_td8 = "";
+$res_level1[] = $e;
+
+//MP6
+$e = new stdClass();
+$e->l1_td1 = "Penghailan Orangtua";
+$e->l1_td2 = "";
+$e->l1_td3 = "";
+$e->l1_td4 = "";
+$e->l1_td5 = "";
+$e->l1_td6 = "";
+$e->l1_td7 = "";
+$e->l1_td8 = "";
+$td8 = 0;
+$res_level1[] = $e;
+$gainPerSub = [];
+
+for ($i = 0; $i < count($mp6); $i++) {
+    $c = $mp5[$i];
+
+    $e = new stdClass();
+    $e->l1_td1 = "";
+    $e->l1_td2 = $c;
+    $e->l1_td3 = array_count_values(array_column($data, 'p6'))[$mp6[$i]];
+
+    $temp = [];
+    for ($j = 0; $j < count($data); $j++) {
+        if ($data[$j]->p6 == $mp6[$i]) {
+            $temp[] = $data[$j];
+        }
+    }
+    $e->l1_td4 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[0]]) ?  array_count_values(array_column($temp, 'p7'))[$mp7[0]] : "0";
+    $e->l1_td5 = isset(array_count_values(array_column($temp, 'p7'))[$mp7[1]]) ? array_count_values(array_column($temp, 'p7'))[$mp7[1]] : "0";
+
+    $nilai1 = $e->l1_td4;
+    $nilai2 = $e->l1_td5;
+    $total = $e->l1_td3;
+    $atribut1 = (- ($nilai1 / $total) * (log(($nilai1 / $total), 2)));
+    $atribut2 = (- ($nilai2 / $total) * (log(($nilai2 / $total), 2)));
+    $atribut1 = is_nan($atribut1) ? 0 : $atribut1;
+    $atribut2 = is_nan($atribut2) ? 0 : $atribut2;
+    $entropy = $atribut1 + $atribut2;
+    $e->l1_td6 = $entropy;
+
+    $e->l1_td7 = "";
+    $temp = (($e->l1_td3 / $res_level1[0]->l1_td3) * $e->l1_td6);
+    if ($temp == "-0") {
+        $e->l1_td8 = "0";
+    } else {
+        $e->l1_td8 = $temp;
+    }
+    $gainPerSub[] = $e->l1_td8;
+    $td8 = $td8 + $e->l1_td8;
+    $res_level1[] = $e;
+}
+
+$resGainPerSub = 0;
+
+for ($i = 0; $i < count($gainPerSub); $i++) {
+    if($i==0){
+        $resGainPerSub = $gainPerSub[$i];
+    }else{
+
+        $toCount = $gainPerSub[$i];
+        $resGainPerSub = $resGainPerSub - $toCount;
+    }
+}
+
+
+// echo 0.30001034845309 - 0.27766465187975;
+// echo $resGainPerSub;
+
+
+$e = new stdClass();
+$e->l1_td1 = "";
+$e->l1_td2 = "";
+$e->l1_td3 = "";
+$e->l1_td4 = "";
+$e->l1_td5 = "";
+$e->l1_td6 = "";
+// $e->l1_td7 = $res_level1[0]->l1_td6 + ($res_level1[2]->l1_td8 - $res_level1[3]->l1_td8 - $res_level1[4]->l1_td8);
+$e->l1_td7 = $res_level1[0]->l1_td6 - ($resGainPerSub);
 $e->l1_td8 = "";
 $res_level1[] = $e;
 
